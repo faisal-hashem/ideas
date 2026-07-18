@@ -1,1 +1,47 @@
-{}
+{
+  "1z8__9CQ93YAMLwo9FzZ0GlL9vry_eJep": {
+    "category": "fashion",
+    "location": null,
+    "has_person": true
+  },
+  "175-ouU12CEnriYwmkB73s7KLmQCeCi7_": {
+    "category": "fashion",
+    "location": "Beverly Hills",
+    "has_person": true
+  },
+  "1aRWtFpw8JEHv_LE81iOKn2j5uNIfehVX": {
+    "category": "fashion",
+    "location": "Beverly Hills",
+    "has_person": true
+  },
+  "1Jmr3WlDhi9em75zzAbtTZK9AeVnt5QG6": {
+    "category": "travel",
+    "location": "Sedona, Arizona",
+    "has_person": true
+  },
+  "1nXm2iiNmVb9Y-GtW6BMAlUlXUXvf1NfE": {
+    "category": "travel",
+    "location": null,
+    "has_person": true
+  },
+  "1BkSZEc4p5AjcxFCDr2lVw_l7zAD9dcZY": {
+    "category": "travel",
+    "location": "Sedona, Arizona",
+    "has_person": true
+  },
+  "1bI6JDdg4_GZRTAnIsLIEGgU8zfofuHxJ": {
+    "category": "travel",
+    "location": "Sedona, Arizona",
+    "has_person": true
+  },
+  "1UgcEun7xAev4GiDw5R_Q3N6_u5l9f-uH": {
+    "category": "travel",
+    "location": "Sedona, Arizona",
+    "has_person": true
+  },
+  "1NBz9caWrtlMSgV7gTnrPS_sucdCRCAQU": {
+    "category": "travel",
+    "location": "Sedona, Arizona",
+    "has_person": true
+  }
+}
