@@ -1,8 +1,8 @@
 # Instagram Auto-Poster
 
-Posts one photo from a Google Drive folder to Instagram, 3x/day, with an
-AI-generated caption and hashtags. Runs entirely on GitHub Actions — nothing
-needs to stay on locally.
+Posts to Instagram from a Google Drive folder, 3x/day, with an AI-generated
+caption and hashtags. Runs entirely on GitHub Actions — nothing needs to stay
+on locally.
 
 **Privacy note:** this repo must be **public**. Each photo gets committed to
 `public_photos/` and served via `raw.githubusercontent.com` so Instagram's
@@ -11,16 +11,27 @@ Don't use this for anything you don't want permanently public.
 
 ## How it works
 
-1. You drop new photos into a Google Drive folder (see the iPhone Shortcuts
-   step below to automate this from an iCloud album).
+1. You drop photos into a Google Drive folder — as many as you want, anytime.
 2. 3x/day, a GitHub Actions workflow runs `scripts/post_to_instagram.py`,
    which:
-   - Lists photos in the Drive folder, skips any already posted
-     (tracked in `posted_log.json`).
-   - Downloads the oldest unposted photo and commits it to `public_photos/`.
-   - Sends the photo to Claude to generate a caption + hashtags.
-   - Publishes it to Instagram via the Graph API using the raw GitHub URL.
-   - Marks it posted in `posted_log.json`.
+   - Lists all photos in the Drive folder.
+   - Excludes any photo used in the **last 10 posts** (`post_history.json`),
+     so nothing repeats too soon. If the whole library is smaller than that,
+     it just picks from everything.
+   - For any photo it hasn't seen before, asks Claude to tag it (category,
+     location, whether a person is in it) — cached in `photo_meta.json` so
+     this only happens once per photo.
+   - Looks for a themed group of 3+ eligible photos sharing a tag (e.g. same
+     location, or same category) and, ~40% of the time when one exists,
+     posts a **carousel/slideshow** of up to 4 photos instead of a single
+     photo. Otherwise posts one photo. This mixes naturally over time.
+   - Normalizes every photo to a JPEG and **pads (never crops)** it to fit
+     Instagram's supported aspect ratio (4:5 to 1.91:1), using a blurred
+     copy of the photo itself as the fill — so nothing gets cut off.
+   - Sends the chosen photo(s) to Claude for one short, casual caption +
+     hashtags covering the whole post.
+   - Publishes to Instagram (single photo or carousel) via the Graph API.
+   - Appends the post to `post_history.json`.
 
 ## One-time setup
 
@@ -66,17 +77,13 @@ In this repo's Settings → Secrets and variables → Actions, add:
 
 Also make sure this repo is **public** (Settings → General → Danger Zone).
 
-### 5. iPhone → Google Drive automation
+### 5. Adding photos
 
-In the Shortcuts app on your iPhone:
-
-1. Go to **Automation** → **+** → **New Personal Automation** → **Photos**.
-2. Trigger: "Photo Added" to a specific Album.
-3. Action: **Save File** → choose your Google Drive folder.
-4. Turn off "Ask Before Running" so it's fully automatic.
-
-Now any photo added to that album syncs to Drive, and the bot will pick it
-up on its next scheduled run.
+Just upload photos to the Drive folder whenever you want — via the Google
+Drive app on your phone (`+` → Upload → Photos and Videos), the desktop
+site, or drag-and-drop. No automation needed; the bot picks up whatever's
+in the folder on its next scheduled run. The more photos you keep in there,
+the more variety it has to work with for carousels and avoiding repeats.
 
 ## Testing
 

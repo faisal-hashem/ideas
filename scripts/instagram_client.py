@@ -15,6 +15,31 @@ def create_media_container(ig_account_id, image_url, caption, access_token):
     return response.json()["id"]
 
 
+def create_carousel_item(ig_account_id, image_url, access_token):
+    response = requests.post(
+        f"{GRAPH_API_BASE}/{ig_account_id}/media",
+        data={"image_url": image_url, "is_carousel_item": "true", "access_token": access_token},
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.json()["id"]
+
+
+def create_carousel_container(ig_account_id, children_ids, caption, access_token):
+    response = requests.post(
+        f"{GRAPH_API_BASE}/{ig_account_id}/media",
+        data={
+            "media_type": "CAROUSEL",
+            "caption": caption,
+            "children": ",".join(children_ids),
+            "access_token": access_token,
+        },
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.json()["id"]
+
+
 def wait_until_ready(creation_id, access_token, timeout_seconds=120, poll_seconds=5):
     deadline = time.monotonic() + timeout_seconds
     while time.monotonic() < deadline:
