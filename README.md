@@ -25,9 +25,8 @@ Don't use this for anything you don't want permanently public.
      location, or same category) and, ~40% of the time when one exists,
      posts a **carousel/slideshow** of up to 4 photos instead of a single
      photo. Otherwise posts one photo. This mixes naturally over time.
-   - Normalizes every photo to a JPEG and **pads (never crops)** it to fit
-     Instagram's supported aspect ratio (4:5 to 1.91:1), using a blurred
-     copy of the photo itself as the fill — so nothing gets cut off.
+   - Normalizes every photo to a JPEG (fixing orientation). No cropping or
+     padding is applied — Instagram handles aspect ratio on its own.
    - Sends the chosen photo(s) to Claude for one short, casual caption +
      hashtags covering the whole post.
    - Publishes to Instagram (single photo or carousel) via the Graph API.
